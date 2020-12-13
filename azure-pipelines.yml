@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         linux:
-          imageName: 'ubuntu-18.04'
+          imageName: 'ubuntu-24.04'
           rid: 'linux-x64'
         mac:
           imageName: 'macos-10.14'
@@ -34,7 +34,7 @@ jobs:
       displayName: 'Use .NET Core sdk'
       inputs:
         packageType: sdk
-        version: 3.0.100
+        version: 5.0.100
         installationPath: $(Agent.ToolsDirectory)/dotnet
     - task: CmdLine@2
       displayName: 'Install linux dependencies'

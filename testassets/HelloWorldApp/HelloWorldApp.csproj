@@ -3,10 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\WebWindow\WebWindow.csproj" />
+    <PackageReference Include="WebWindow" Version="0.1.1-dev" />
   </ItemGroup>
 
   <ItemGroup>

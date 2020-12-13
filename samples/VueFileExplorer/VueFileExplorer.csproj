@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebWindow" Version="$(SamplesWebWindowPackageVersion)" />
+    <PackageReference Include="WebWindow" Version="0.1.1-dev" />
   </ItemGroup>
 
   <ItemGroup>
