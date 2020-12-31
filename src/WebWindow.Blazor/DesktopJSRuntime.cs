@@ -1,8 +1,6 @@
 ﻿using Microsoft.JSInterop;
 using Microsoft.JSInterop.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebWindows.Blazor
@@ -42,6 +40,11 @@ namespace WebWindows.Blazor
             // Looks like the TaskGenericsUtil logic in Microsoft.JSInterop doesn't know how to
             // understand System.Threading.Tasks.VoidTaskResult
             return result?.GetType() == VoidTaskResultType ? null : result;
+        }
+
+        protected override void BeginInvokeJS(long taskId, string identifier, string argsJson, JSCallResultType resultType, long targetInstanceId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

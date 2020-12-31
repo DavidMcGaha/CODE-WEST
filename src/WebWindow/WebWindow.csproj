@@ -10,6 +10,7 @@
     <NativeAssetRuntimeIdentifier Condition="'$(OS)' == 'Windows_NT'">win-x64</NativeAssetRuntimeIdentifier>
     <NativeAssetRuntimeIdentifier Condition="'$(OS)' != 'Windows_NT' AND '$(IsMacOS)' != 'true'">linux-x64</NativeAssetRuntimeIdentifier>
     <NativeAssetRuntimeIdentifier Condition="'$(OS)' != 'Windows_NT' AND '$(IsMacOS)' == 'true'">osx-x64</NativeAssetRuntimeIdentifier>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <Target Name="BuildNonWindowsNative" Condition="'$(OS)' != 'Windows_NT'" BeforeTargets="Build">

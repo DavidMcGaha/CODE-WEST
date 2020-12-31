@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using WebWindows;
 
-namespace HelloWorldApp
+namespace HelloWorldGRpc
 {
     class Program
     {
