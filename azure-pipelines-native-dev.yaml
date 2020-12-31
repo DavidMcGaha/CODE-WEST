@@ -103,6 +103,7 @@ jobs:
   - job: 'CombinePackages'
     dependsOn: 'BuildPackage'
     steps:
+    
     #Download native files from Artifacts
     - task: DownloadBuildArtifacts@0
       inputs:
@@ -130,7 +131,7 @@ jobs:
         
     #Create NuGet package
     - task: CmdLine@2
-      displayName" 'Create NuGet package'
+      displayName: 'Create NuGet package'
       inputs:
         script: 'nuget.exe pack WEST.Native.nuspec -BasePath=artifacts -Version=$(versionprefix)-$(Build.BuildNumber) -NonInteractive -OutputDirectory=artifacts'
 
@@ -138,5 +139,5 @@ jobs:
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: 'WEST.Native.nupkg'
-        ArtifactName: 'WEST.Native.$(versionprefix)-$(Build.BuildNumber).nupkg
+        ArtifactName: 'WEST.Native.$(versionprefix)-$(Build.BuildNumber).nupkg'
         publishLocation: 'Container'
