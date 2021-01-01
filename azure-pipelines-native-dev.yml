@@ -125,33 +125,33 @@ jobs:
     #Download native files from Artifacts
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts/WEST.Native.dll'
+        downloadPath: 'WEST.Native.dll'
         artifactName: 'WEST.Native.dll'
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts/WebView2Loader.dll'
+        downloadPath: 'WebView2Loader.dll'
         artifactName: 'WebView2Loader.dll'
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts/WEST.Native.nuspec'
+        downloadPath: 'WEST.Native.nuspec'
         artifactName: 'WEST.Native.nuspec'
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts/WEST.Native.so'
+        downloadPath: 'WEST.Native.so'
         artifactName: 'WEST.Native.so'
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts/WEST.Native.dylib'
+        downloadPath: 'WEST.Native.dylib'
         artifactName: 'WEST.Native.dylib'
     - task: CmdLine@2
       inputs:
-        script: 'ls -R artifacts'
+        script: 'ls -R'
         
     #Create NuGet package
     - task: CmdLine@2
       displayName: 'Create NuGet package'
       inputs:
-        script: 'nuget.exe pack WEST.Native.nuspec -BasePath=artifacts -Version=$(versionprefix)-$(Build.BuildNumber) -NonInteractive -OutputDirectory=artifacts'
+        script: 'nuget.exe pack WEST.Native.nuspec -Version $(versionprefix)-$(Build.BuildNumber) -NonInteractive'
 
     #Publish NuGet package to Artifacts
     - task: PublishBuildArtifacts@1
