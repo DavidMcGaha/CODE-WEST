@@ -125,18 +125,23 @@ jobs:
     #Download native files from Artifacts
     - task: DownloadPipelineArtifact@2
       inputs:
+        artifact: 'WEST.Native.dll'
         downloadPath: 'artifacts/WEST.Native.dll'
     - task: DownloadPipelineArtifact@2
       inputs:
+        artifact: 'WebView2Loader.dll'
         downloadPath: 'artifacts/WebView2Loader.dll'
     - task: DownloadPipelineArtifact@2
       inputs:
+        artifact: 'WEST.Native.nuspec'
         downloadPath: 'artifacts/WEST.Native.nuspec'
     - task: DownloadPipelineArtifact@2
       inputs:
+        artifact: 'WEST.Native.so'
         downloadPath: 'artifacts/WEST.Native.so'
     - task: DownloadPipelineArtifact@2
       inputs:
+        artifact: 'WEST.Native.dylib'
         downloadPath: 'artifacts/WEST.Native.dylib'
     - task: CmdLine@2
       displayName: 'List downloaded files'
