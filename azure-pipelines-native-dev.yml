@@ -8,7 +8,7 @@ variables:
   versionprefix: 0.1.0
 
 jobs:
-  - job: 'BuildPackage'
+  - job: 'BuildAndPublishNative'
     strategy:
       matrix:
         linux:
@@ -114,8 +114,12 @@ jobs:
 
 
   #Only 1 instance - will download all native files, create NuGet package and publish to Artifacts
-  - job: 'CombinePackages'
-    dependsOn: 'BuildPackage'
+  - job: 'BuildPackage'
+    dependsOn: 'BuildAndPublishNative'
+    pool:
+      vmImage: 'windows-latest'
+    variables:
+      buildConfiguration: 'Release'
     steps:
     
     #Download native files from Artifacts
