@@ -123,19 +123,19 @@ jobs:
     steps:
     
     #Download native files from Artifacts
-    - task: DownloadPublishArtifact@2
+    - task: DownloadPipelineArtifact@2
       inputs:
         downloadPath: 'artifacts/WEST.Native.dll'
-    - task: DownloadPublishArtifact@2
+    - task: DownloadPipelineArtifact@2
       inputs:
         downloadPath: 'artifacts/WebView2Loader.dll'
-    - task: DownloadPublishArtifact@2
+    - task: DownloadPipelineArtifact@2
       inputs:
         downloadPath: 'artifacts/WEST.Native.nuspec'
-    - task: DownloadPublishArtifact@2
+    - task: DownloadPipelineArtifact@2
       inputs:
         downloadPath: 'artifacts/WEST.Native.so'
-    - task: DownloadPublishArtifact@2
+    - task: DownloadPipelineArtifact@2
       inputs:
         downloadPath: 'artifacts/WEST.Native.dylib'
     - task: CmdLine@2
