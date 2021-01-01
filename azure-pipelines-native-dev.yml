@@ -60,7 +60,7 @@ jobs:
       condition: eq(variables.rid, 'linux-x64')
       inputs:
         workingDirectory: './src/WebWindow.Native'
-        script: 'gcc -std=c++11 -shared -DOS_LINUX Exports.cpp WebWindow.Linux.cpp -o x64/$(buildConfiguration)/WEST.Native.so `pkg-config --cflags --libs gtk+-3.0 webkit2gtk-4.0` -fPIC'
+        script: 'gcc -std=c++11 -shared -DOS_LINUX Exports.cpp WebWindow.Linux.cpp -o ./src/WebWindow.Native/x64/$(buildConfiguration)/WEST.Native.so `pkg-config --cflags --libs gtk+-3.0 webkit2gtk-4.0` -fPIC'
     - task: CmdLine@2
       displayName: 'Contents of Mac folder'
       condition: eq(variables.rid, 'osx-x64')
@@ -71,7 +71,7 @@ jobs:
       condition: eq(variables.rid, 'osx-x64')
       inputs:
         workingDirectory: './src/WebWindow.Native'
-        script: 'gcc -shared -lstdc++ -DOS_MAC -framework Cocoa -framework WebKit WebWindow.Mac.mm Exports.cpp WebWindow.Mac.AppDelegate.mm WebWindow.Mac.UiDelegate.mm WebWindow.Mac.UrlSchemeHandler.m -o x64/$(buildConfiguration)/WEST.Native.dylib'
+        script: 'gcc -shared -lstdc++ -DOS_MAC -framework Cocoa -framework WebKit WebWindow.Mac.mm Exports.cpp WebWindow.Mac.AppDelegate.mm WebWindow.Mac.UiDelegate.mm WebWindow.Mac.UrlSchemeHandler.m -o ./src/WebWindow.Native/x64/$(buildConfiguration)/WEST.Native.dylib'
 
     #Publish native output to Artifacts
     - task: PublishBuildArtifacts@1
@@ -92,7 +92,7 @@ jobs:
       displayName: 'Publish WEST.Native.nuspec (windows) to artifacts'
       condition: eq(variables.rid, 'windows-x64')
       inputs:
-        PathtoPublish: './src/WebWindow.Native/x64/$(buildConfiguration)/WEST.Native.nuspec'
+        PathtoPublish: './src/WebWindow.Native/WEST.Native.nuspec'
         ArtifactName: 'WEST.Native.nuspec'
         publishLocation: 'Container'
     - task: PublishBuildArtifacts@1
