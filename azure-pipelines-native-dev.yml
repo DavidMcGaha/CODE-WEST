@@ -142,7 +142,7 @@ jobs:
     - task: CmdLine@2
       displayName: 'List downloaded files'
       inputs:
-        script: 'dir /s'
+        script: 'cd $(Pipeline.Workspace); dir'
 
     #Create NuGet package
     - task: CmdLine@2
