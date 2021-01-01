@@ -76,35 +76,35 @@ jobs:
         script: 'gcc -shared -lstdc++ -DOS_MAC -framework Cocoa -framework WebKit WebWindow.Mac.mm Exports.cpp WebWindow.Mac.AppDelegate.mm WebWindow.Mac.UiDelegate.mm WebWindow.Mac.UrlSchemeHandler.m -o x64/$(buildConfiguration)/WEST.Native.dylib'
 
     #Publish native output to Artifacts
-    - task: PublishPipelineArtifacts@1
+    - task: PublishPipelineArtifact@1
       displayName: 'Publish WEST.Native.dll (windows) to artifacts'
       condition: eq(variables.rid, 'windows-x64')
       inputs:
         PathtoPublish: './src/WebWindow.Native/x64/$(buildConfiguration)/WebWindow.Native.dll'
         ArtifactName: 'WEST.Native.dll'
         publishLocation: 'Container'
-    - task: PublishPipelineArtifacts@1
+    - task: PublishPipelineArtifact@1
       displayName: 'Publish WebView2Loader.dll (windows) to artifacts'
       condition: eq(variables.rid, 'windows-x64')
       inputs:
         PathtoPublish: './src/WebWindow.Native/x64/$(buildConfiguration)/WebView2Loader.dll'
         ArtifactName: 'WebView2Loader.dll'
         publishLocation: 'Container'
-    - task: PublishPipelineArtifacts@1
+    - task: PublishPipelineArtifact@1
       displayName: 'Publish WEST.Native.nuspec (windows) to artifacts'
       condition: eq(variables.rid, 'windows-x64')
       inputs:
         PathtoPublish: './src/WebWindow.Native/WEST.Native.nuspec'
         ArtifactName: 'WEST.Native.nuspec'
         publishLocation: 'Container'
-    - task: PublishPipelineArtifacts@1
+    - task: PublishPipelineArtifact@1
       displayName: 'Publish WEST.Native.so (linux) to artifacts'
       condition: eq(variables.rid, 'linux-x64')
       inputs:
         PathtoPublish: './src/WebWindow.Native/x64/$(buildConfiguration)/WEST.Native.so'
         ArtifactName: 'WEST.Native.so'
         publishLocation: 'Container'
-    - task: PublishPipelineArtifacts@1
+    - task: PublishPipelineArtifact@1
       displayName: 'Publish WEST.Native.dylib (mac) to artifacts'
       condition: eq(variables.rid, 'osx-x64')
       inputs:
@@ -123,19 +123,19 @@ jobs:
     steps:
     
     #Download native files from Artifacts
-    - task: DownloadPublishArtifacts@2
+    - task: DownloadPublishArtifact@2
       inputs:
         downloadPath: 'artifacts/WEST.Native.dll'
-    - task: DownloadPublishArtifacts@2
+    - task: DownloadPublishArtifact@2
       inputs:
         downloadPath: 'artifacts/WebView2Loader.dll'
-    - task: DownloadPublishArtifacts@2
+    - task: DownloadPublishArtifact@2
       inputs:
         downloadPath: 'artifacts/WEST.Native.nuspec'
-    - task: DownloadPublishArtifacts@2
+    - task: DownloadPublishArtifact@2
       inputs:
         downloadPath: 'artifacts/WEST.Native.so'
-    - task: DownloadPublishArtifacts@2
+    - task: DownloadPublishArtifact@2
       inputs:
         downloadPath: 'artifacts/WEST.Native.dylib'
     - task: CmdLine@2
@@ -151,7 +151,7 @@ jobs:
         script: 'nuget.exe pack WEST.Native.nuspec -Version $(versionprefix)-$(Build.BuildNumber) -NonInteractive'
 
     #Publish NuGet package to Artifacts
-    - task: PublishPipelineArtifacts@1
+    - task: PublishPipelineArtifact@1
       inputs:
         PathtoPublish: 'artifacts/WEST.Native.nupkg'
         ArtifactName: 'WEST.Native.$(versionprefix)-$(Build.BuildNumber).nupkg'
