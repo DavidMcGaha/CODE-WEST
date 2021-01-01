@@ -139,11 +139,16 @@ jobs:
     - task: DownloadPipelineArtifact@2
       inputs:
         artifact: 'WEST.Native.dylib'
-        
+    - task: CmdLine@2
+      displayName: 'List downloaded files'
+      inputs:
+        script: 'dir /s'
+
     #Create NuGet package
     - task: CmdLine@2
       displayName: 'Create NuGet package'
       inputs:
+        workingDirectory: '$(Pipeline.Workspace)'
         script: 'nuget.exe pack WEST.Native.nuspec -Version $(versionprefix)-$(Build.BuildNumber) -NonInteractive'
 
     #Publish NuGet package to Artifacts
