@@ -144,7 +144,6 @@ jobs:
     - task: CmdLine@2
       displayName: 'Create NuGet package'
       inputs:
-        workingDirectory: '$(Pipeline.Workspace)/NativeOutput'        
         script: 'nuget.exe pack WEST.Native.nuspec -Version $(versionprefix)-$(Build.BuildNumber) -NonInteractive'
 
     #Publish NuGet package to Artifacts
