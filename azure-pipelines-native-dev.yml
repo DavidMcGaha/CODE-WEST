@@ -12,14 +12,14 @@ jobs:
     strategy:
       matrix:
         linux:
-          imageName: 'ubuntu-20.04'
+          imageName: 'ubuntu-latest'
           rid: 'linux-x64'
         mac:
-          imageName: 'macos-10.14'
+          imageName: 'macos-latest'
           rid: 'osx-x64'
         windows:
           rid: 'windows-x64'
-          imageName: 'windows-2019'
+          imageName: 'windows-latest'
 
     pool:
       vmImage: $(imageName)
@@ -91,7 +91,7 @@ jobs:
         ArtifactName: 'WEST.Native.so'
         publishLocation: 'Container'
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish WEST.Native.dylib (linux) to artifacts'
+      displayName: 'Publish WEST.Native.dylib (mac) to artifacts'
       condition: eq(variables.rid, 'osx-x64')
       inputs:
         PathtoPublish: 'x64/$(buildConfiguration)/WEST.Native.dylib'
@@ -107,23 +107,23 @@ jobs:
     #Download native files from Artifacts
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts'
+        downloadPath: 'artifacts/WEST.Native.dll'
         artifactName: 'WEST.Native.dll'
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts'
+        downloadPath: 'artifacts/WebView2Loader.dll'
         artifactName: 'WebView2Loader.dll'
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts'
+        downloadPath: 'artifacts/WEST.Native.nuspec'
         artifactName: 'WEST.Native.nuspec'
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts'
+        downloadPath: 'artifacts/WEST.Native.so'
         artifactName: 'WEST.Native.so'
     - task: DownloadBuildArtifacts@0
       inputs:
-        downloadPath: 'artifacts'
+        downloadPath: 'artifacts/WEST.Native.dylib'
         artifactName: 'WEST.Native.dylib'
     - task: CmdLine@2
       inputs:
