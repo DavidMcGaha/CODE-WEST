@@ -51,27 +51,29 @@ jobs:
         platform: 'x64'
         configuration: '$(buildConfiguration)'
     - task: CmdLine@2
-      displayName: 'Contents of Linux folder'
+      displayName: 'Create output folder for Linux'
       condition: eq(variables.rid, 'linux-x64')
       inputs:
-        script: 'ls'
+        workingDirectory: './src/WebWindow.Native'
+        script: 'mkdir x64; cd x64; mkdir $(buildConfiguration)'
     - task: CmdLine@2
       displayName: 'Build Linux native assets'
       condition: eq(variables.rid, 'linux-x64')
       inputs:
         workingDirectory: './src/WebWindow.Native'
-        script: 'gcc -std=c++11 -shared -DOS_LINUX Exports.cpp WebWindow.Linux.cpp -o ./src/WebWindow.Native/x64/$(buildConfiguration)/WEST.Native.so `pkg-config --cflags --libs gtk+-3.0 webkit2gtk-4.0` -fPIC'
+        script: 'gcc -std=c++11 -shared -DOS_LINUX Exports.cpp WebWindow.Linux.cpp -o x64/$(buildConfiguration)/WEST.Native.so `pkg-config --cflags --libs gtk+-3.0 webkit2gtk-4.0` -fPIC'
     - task: CmdLine@2
-      displayName: 'Contents of Mac folder'
+      displayName: 'Create output folder for MacOS'
       condition: eq(variables.rid, 'osx-x64')
       inputs:
-        script: 'ls'
+        workingDirectory: './src/WebWindow.Native'
+        script: 'mkdir x64; cd x64; mkdir $(buildConfiguration)'
     - task: CmdLine@2
       displayName: 'Build macOS native assets'
       condition: eq(variables.rid, 'osx-x64')
       inputs:
         workingDirectory: './src/WebWindow.Native'
-        script: 'gcc -shared -lstdc++ -DOS_MAC -framework Cocoa -framework WebKit WebWindow.Mac.mm Exports.cpp WebWindow.Mac.AppDelegate.mm WebWindow.Mac.UiDelegate.mm WebWindow.Mac.UrlSchemeHandler.m -o ./src/WebWindow.Native/x64/$(buildConfiguration)/WEST.Native.dylib'
+        script: 'gcc -shared -lstdc++ -DOS_MAC -framework Cocoa -framework WebKit WebWindow.Mac.mm Exports.cpp WebWindow.Mac.AppDelegate.mm WebWindow.Mac.UiDelegate.mm WebWindow.Mac.UrlSchemeHandler.m -o x64/$(buildConfiguration)/WEST.Native.dylib'
 
     #Publish native output to Artifacts
     - task: PublishBuildArtifacts@1

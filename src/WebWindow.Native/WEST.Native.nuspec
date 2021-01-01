@@ -13,7 +13,7 @@
   <files>
     <file src="WEST.Native.dll" target="runtimes\win-x64\native\WEST.Native.dll" />
     <file src="WebView2Loader.dll" target="runtimes\win-x64\native\WebView2Loader.dll" />
-    <file src="WEST.Native.so" target="runtimes\linux-x64\native\WST.Native.so" />
-    <file src="WEST.Native.dylib" target="runtimes\osx-x64\native\WST.Native.dylib" />
+    <file src="WEST.Native.so" target="runtimes\linux-x64\native\WEST.Native.so" />
+    <file src="WEST.Native.dylib" target="runtimes\osx-x64\native\WEST.Native.dylib" />
   </files>
 </package>
