@@ -32,12 +32,13 @@ jobs:
         command: 'restore'
         restoreSolution: 'WebWindow.sln'
         feedsToUse: 'select'
-        publishVstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
+        vstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
+        includeNuGetOrg: true
 
     - task: CmdLine@2
       displayName: 'Build WEST.NET'
       inputs:
-        script: 'dotnet build src/WebWindow/WebWindow.csproj -c $(buildConfiguration) --source https://pkgs.dev.azure.com/eps-software/25138a24-91f3-4071-b9bd-4d7763ecb75f/_packaging/WESTPackages/nuget/v3/index.json'
+        script: 'dotnet build src/WebWindow/WebWindow.csproj -c $(buildConfiguration)''
 
     #Publish NuGet package to Artifacts
     - task: PublishPipelineArtifact@1
