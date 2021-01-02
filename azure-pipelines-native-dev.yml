@@ -154,5 +154,5 @@ jobs:
     #Publish NuGet package to Artifacts
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)/NativeOutput/WEST.Native.$(versionprefix)-$(Build.BuildNumber).nupkg'
+        targetPath: '$(Pipeline.Workspace)/WEST.Native.$(versionprefix)-$(Build.BuildNumber).nupkg'
         artifactName: 'NuGetPackage'
