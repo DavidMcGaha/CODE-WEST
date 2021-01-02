@@ -142,7 +142,8 @@ jobs:
     - task: CmdLine@2
       displayName: 'List downloaded files'
       inputs:
-        script: 'cd $(Pipeline.Workspace); dir'
+        workingDirectory: '$(Pipeline.Workspace)'
+        script: 'dir'
 
     #Create NuGet package
     - task: CmdLine@2
