@@ -164,5 +164,7 @@ jobs:
       displayName: 'NuGet push'
       inputs:
         command: push
+        feedsToUse: 'select'
         publishVstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
+        packagesToPush: '$(System.ArtifactsDirectory)/**/*.nupkg'
         allowPackageConflicts: true
