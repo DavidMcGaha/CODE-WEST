@@ -1,0 +1,123 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+variables:
+  versionprefix: 0.1.0
+
+jobs:
+  - job: 'BuildPackage'
+
+    pool:
+      vmImage: 'windows-latest'
+
+    variables:
+      buildConfiguration: 'Release'
+
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
+      inputs:
+        packageType: sdk
+        version: 5.0.100
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet package restore for WEST.NET packages'
+      inputs:
+        command: 'restore'
+        restoreSolution: 'WebWindow.sln'
+        feedsToUse: 'select'
+
+    - task: CmdLine@2
+      displayName: 'Build WEST.NET (windows)'
+      condition: eq(variables.rid, 'windows-x64')
+      inputs:
+        script: 'dotnet build -c $(buildConfiguration) src/WebWindow/WebWindow.csproj'
+
+    - task: CmdLine@2
+      displayName: 'Build WEST.NET (linux/mac)'
+      condition: ne(variables.rid, 'windows-x64')
+      inputs:
+        script: 'dotnet build -c $(buildConfiguration) src/WebWindow/WebWindow.csproj /t:BuildNonWindowsNative'
+
+    - task: CmdLine@2
+      displayName: 'dotnet pack WEST.NET'
+      inputs:
+        script: 'dotnet pack -c $(buildConfiguration) src/WebWindow/WebWindow.csproj /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber)'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: 'artifacts'
+        artifactName: 'artifacts-$(rid)'
+
+  - job: 'CombinePackages'
+    dependsOn: 'BuildPackage'
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifact: 'artifacts-windows-x64'
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifact: 'artifacts-linux-x64'
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifact: 'artifacts-osx-x64'
+    - task: CmdLine@2
+      displayName: 'List downloaded files'
+      inputs:
+        workingDirectory: '$(Pipeline.Workspace)'
+        script: 'dir'
+        
+    - task: CmdLine@2
+      displayName: 'Merge .nupkg files'
+      inputs:
+        script: 'sudo apt install zipmerge && mkdir combined && zipmerge combined/WebWindow.$(versionprefix)-$(Build.BuildNumber).nupkg artifacts/*/WebWindow.$(versionprefix)-$(Build.BuildNumber).nupkg'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: 'combined'
+        artifact: 'artifacts-combined'
+
+    #Publish NuGet package to Artifacts
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/WEST.NET.$(versionprefix)-$(Build.BuildNumber).nupkg'
+        artifact: 'artifacts-combined'
+    
+    - task: NuGetAuthenticate@0
+      displayName: 'NuGet Authenticate'
+    - task: NuGetCommand@2
+      displayName: 'NuGet push'
+      inputs:
+        command: push
+        feedsToUse: 'select'
+        publishVstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
+        packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+        allowPackageConflicts: true
+
+  # Uploads the NuGet package file to nuget.org
+  # Important notes:
+  # 1. For this to work, you need to create a 'service connection' with the same name
+  #    as the 'publishFeedCredentials' value.
+  # 2. For security, you *must* ensure that 'Make secrets available to builds of forks'
+  #    is disabled in your PR validation settings (inside build -> Edit -> Triggers).
+  #    Otherwise, PRs would be able to push new packages even without being merged.
+  #- job: 'PublishToNuGet'
+  #  dependsOn: 'CombinePackages'
+  #  steps:
+  #  - task: DownloadBuildArtifacts@0
+  #    inputs:
+  #      downloadPath: 'artifacts'
+  #      artifactName: 'artifacts-combined'
+  #  - task: NuGetCommand@2
+  #    displayName: 'Publish to nuget.org'
+  #    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  #    inputs:
+  #      command: push
+  #      packagesToPush: 'artifacts/artifacts-combined/*.nupkg'
+  #      nuGetFeedType: external
+  #      publishFeedCredentials: 'WebWindowNuGet'

@@ -15,15 +15,13 @@
 
   <Target Name="BuildNonWindowsNative" Condition="'$(OS)' != 'Windows_NT'" BeforeTargets="Build">
     <MakeDir Directories="..\WebWindow.Native\x64\$(Configuration)" />
-    <Exec Condition="'$(IsMacOS)' == 'true'" WorkingDirectory="..\WebWindow.Native" Command="gcc -shared -lstdc++ -DOS_MAC -framework Cocoa -framework WebKit WebWindow.Mac.mm Exports.cpp WebWindow.Mac.AppDelegate.mm WebWindow.Mac.UiDelegate.mm WebWindow.Mac.UrlSchemeHandler.m -o x64/$(Configuration)/WebWindow.Native.dylib" />
-    <Exec Condition="'$(IsMacOS)' != 'true'" WorkingDirectory="..\WebWindow.Native" Command="gcc -std=c++11 -shared -DOS_LINUX Exports.cpp WebWindow.Linux.cpp -o x64/$(Configuration)/WebWindow.Native.so `pkg-config --cflags --libs gtk+-3.0 webkit2gtk-4.0` -fPIC" />
   </Target>
 
   <ItemGroup>
-    <_NativeLibraries Include="$(NativeOutputDir)WebWindow.Native.dll" Condition="Exists('$(NativeOutputDir)WebWindow.Native.dll')" />
+    <_NativeLibraries Include="$(NativeOutputDir)WEST.Native.dll" Condition="Exists('$(NativeOutputDir)WEST.Native.dll')" />
     <_NativeLibraries Include="$(NativeOutputDir)WebView2Loader.dll" Condition="Exists('$(NativeOutputDir)WebView2Loader.dll')" />
-    <_NativeLibraries Include="$(NativeOutputDir)WebWindow.Native.so" Condition="Exists('$(NativeOutputDir)WebWindow.Native.so')" />
-    <_NativeLibraries Include="$(NativeOutputDir)WebWindow.Native.dylib" Condition="Exists('$(NativeOutputDir)WebWindow.Native.dylib')" />
+    <_NativeLibraries Include="$(NativeOutputDir)WEST.Native.so" Condition="Exists('$(NativeOutputDir)WEST.Native.so')" />
+    <_NativeLibraries Include="$(NativeOutputDir)WEST.Native.dylib" Condition="Exists('$(NativeOutputDir)WEST.Native.dylib')" />
     <Content Include="@(_NativeLibraries)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>%(Filename)%(Extension)</Link>
@@ -33,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebWindow.Native\WebWindow.Native.vcxproj" />
+    <PackageReference Include="WEST.Native" Version="0.1.0-20210101.24" />
   </ItemGroup>
-
+  
 </Project>
