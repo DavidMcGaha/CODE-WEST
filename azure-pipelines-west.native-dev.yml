@@ -150,7 +150,7 @@ jobs:
       displayName: 'Create NuGet package'
       inputs:
         workingDirectory: '$(Pipeline.Workspace)'
-        script: 'nuget.exe pack WEST.Native.nuspec -Version $(versionprefix)-$(Build.BuildNumber) -NonInteractive'
+        script: 'nuget.exe pack WEST.Native.nuspec -Version $(versionprefix)-$(Build.BuildNumber) -NonInteractive -Properties version=$(versionprefix)-$(Build.BuildNumber)'
 
     #Publish NuGet package to Artifacts
     - task: PublishPipelineArtifact@1
