@@ -32,6 +32,7 @@ jobs:
         command: 'restore'
         restoreSolution: 'WebWindow.sln'
         feedsToUse: 'select'
+        publishVstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
 
     - task: CmdLine@2
       displayName: 'Build WEST.NET (windows)'
