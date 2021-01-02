@@ -30,7 +30,7 @@ jobs:
       displayName: 'NuGet package restore for WEST.NET packages'
       inputs:
         command: 'restore'
-        restoreSolution: 'WebWindow.sln'
+        restoreSolution: '**/WebWindow.sln'
         feedsToUse: 'select'
         vstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
         includeNuGetOrg: true
