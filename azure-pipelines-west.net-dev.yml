@@ -30,11 +30,11 @@ jobs:
       displayName: 'NuGet package restore for WEST.NET packages'
       inputs:
         command: 'restore'
-        restoreSolution: '**/WebWindow.Dev.csproj'
+        verbosityRestore: 'Detailed'
+        restoreSolution: '**/WebWindow.Dev.sln'
         feedsToUse: 'select'
         vstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
         includeNuGetOrg: true
-        verbosityRestore: 'Detailed'
 
     - task: CmdLine@2
       displayName: 'Build WEST.NET'
