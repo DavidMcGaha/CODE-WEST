@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebWindow" Version="0.1.1-dev" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="wwwroot\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
