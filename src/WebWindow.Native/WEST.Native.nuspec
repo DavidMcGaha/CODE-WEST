@@ -9,11 +9,12 @@
     <license type="expression">Apache-2.0</license>
     <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
     <description>Open native OS windows hosting web UI on Windows, Mac, and Linux</description>
+    <projectUrl>https://github.com/ottodobretsberger/CODE-WEST</projectUrl>
   </metadata>
-  <files>
-    <file src="WEST.Native.dll" target="runtimes\win-x64\native\WEST.Native.dll" />
-    <file src="WebView2Loader.dll" target="runtimes\win-x64\native\WebView2Loader.dll" />
-    <file src="WEST.Native.so" target="runtimes\linux-x64\native\WEST.Native.so" />
-    <file src="WEST.Native.dylib" target="runtimes\osx-x64\native\WEST.Native.dylib" />
-  </files>
+  <contentFiles>
+    <file src="WEST.Native.dll" target="runtimes\win-x64\native\WEST.Native.dll" buildAction="None" copyToOutput="true" />
+    <file src="WebView2Loader.dll" target="runtimes\win-x64\native\WebView2Loader.dll" buildAction="None" copyToOutput="true" />
+    <file src="WEST.Native.so" target="runtimes\linux-x64\native\WEST.Native.so" buildAction="None" copyToOutput="true" />
+    <file src="WEST.Native.dylib" target="runtimes\osx-x64\native\WEST.Native.dylib" buildAction="None" copyToOutput="true" />
+  </contentFiles>
 </package>
