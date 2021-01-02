@@ -31,7 +31,7 @@ jobs:
       inputs:
         command: 'restore'
         verbosityRestore: 'Detailed'
-        restoreSolution: 'src/WebWindow/project.json'
+        restoreSolution: '**/WebWindow.sln'
         feedsToUse: 'select'
         vstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
         includeNuGetOrg: true
