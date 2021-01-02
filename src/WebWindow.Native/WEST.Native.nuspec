@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>WEST</id>
+    <id>WEST.Native</id>
     <version>0.1.1-dev</version>
     <title>WEST</title>
     <authors>WEST</authors>
