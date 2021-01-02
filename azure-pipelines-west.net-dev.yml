@@ -42,7 +42,7 @@ jobs:
     #Publish NuGet package to Artifacts
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)/WEST.NET.$(versionprefix)-$(Build.BuildNumber).nupkg'
+        targetPath: 'artifacts/WEST.NET.$(versionprefix)-$(Build.BuildNumber).nupkg'
         artifact: 'artifacts-combined'
     
     - task: NuGetAuthenticate@0
@@ -53,7 +53,7 @@ jobs:
         command: push
         feedsToUse: 'select'
         publishVstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
-        packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+        packagesToPush: 'artifacts/**/*.nupkg'
         allowPackageConflicts: true
 
   # Uploads the NuGet package file to nuget.org
