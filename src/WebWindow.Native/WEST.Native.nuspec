@@ -11,11 +11,11 @@
     <description>Open native OS windows hosting web UI on Windows, Mac, and Linux</description>
     <projectUrl>https://github.com/ottodobretsberger/CODE-WEST</projectUrl>
     <tags>native</tags>
+    <contentFiles>
+      <file src="WEST.Native.dll" target="runtimes\win-x64\native\WEST.Native.dll" buildAction="None" copyToOutput="true" />
+      <file src="WebView2Loader.dll" target="runtimes\win-x64\native\WebView2Loader.dll" buildAction="None" copyToOutput="true" />
+      <file src="WEST.Native.so" target="runtimes\linux-x64\native\WEST.Native.so" buildAction="None" copyToOutput="true" />
+      <file src="WEST.Native.dylib" target="runtimes\osx-x64\native\WEST.Native.dylib" buildAction="None" copyToOutput="true" />
+    </contentFiles>
   </metadata>
-  <contentFiles>
-    <file src="WEST.Native.dll" target="runtimes\win-x64\native\WEST.Native.dll" buildAction="None" copyToOutput="true" />
-    <file src="WebView2Loader.dll" target="runtimes\win-x64\native\WebView2Loader.dll" buildAction="None" copyToOutput="true" />
-    <file src="WEST.Native.so" target="runtimes\linux-x64\native\WEST.Native.so" buildAction="None" copyToOutput="true" />
-    <file src="WEST.Native.dylib" target="runtimes\osx-x64\native\WEST.Native.dylib" buildAction="None" copyToOutput="true" />
-  </contentFiles>
 </package>
