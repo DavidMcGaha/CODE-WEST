@@ -12,20 +12,8 @@ variables:
 jobs:
   - job: 'BuildPackage'
 
-    strategy:
-      matrix:
-        linux:
-          imageName: 'ubuntu-18.04'
-          rid: 'linux-x64'
-        mac:
-          imageName: 'macos-10.14'
-          rid: 'osx-x64'
-        windows:
-          rid: 'windows-x64'
-          imageName: 'windows-2019'
-
     pool:
-      vmImage: $(imageName)
+      vmImage: windows-latest
 
     variables:
       buildConfiguration: 'Release'
@@ -47,53 +35,9 @@ jobs:
         publishVstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
 
     - task: CmdLine@2
-      displayName: 'Build WEST.NET (windows)'
-      condition: eq(variables.rid, 'windows-x64')
+      displayName: 'Build WEST.NET'
       inputs:
-        script: 'dotnet build -c $(buildConfiguration) src/WebWindow/WebWindow.csproj'
-
-    - task: CmdLine@2
-      displayName: 'Build WEST.NET (linux/mac)'
-      condition: ne(variables.rid, 'windows-x64')
-      inputs:
-        script: 'dotnet build -c $(buildConfiguration) src/WebWindow/WebWindow.csproj /t:BuildNonWindowsNative'
-
-    - task: CmdLine@2
-      displayName: 'dotnet pack WEST.NET'
-      inputs:
-        script: 'dotnet pack -c $(buildConfiguration) src/WebWindow/WebWindow.csproj /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber)'
-
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: 'artifacts'
-        artifactName: 'artifacts-$(rid)'
-
-  - job: 'CombinePackages'
-    dependsOn: 'BuildPackage'
-    steps:
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        artifact: 'artifacts-windows-x64'
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        artifact: 'artifacts-linux-x64'
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        artifact: 'artifacts-osx-x64'
-    - task: CmdLine@2
-      displayName: 'List downloaded files'
-      inputs:
-        workingDirectory: '$(Pipeline.Workspace)'
-        script: 'dir'
-        
-    - task: CmdLine@2
-      displayName: 'Merge .nupkg files'
-      inputs:
-        script: 'sudo apt install zipmerge && mkdir combined && zipmerge combined/WebWindow.$(versionprefix)-$(Build.BuildNumber).nupkg artifacts/*/WebWindow.$(versionprefix)-$(Build.BuildNumber).nupkg'
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: 'combined'
-        artifact: 'artifacts-combined'
+        script: 'dotnet build -c $(buildConfiguration) src/WebWindow/WebWindow.csproj --source WEST (Formerly WebWindow)/WESTPackages'
 
     #Publish NuGet package to Artifacts
     - task: PublishPipelineArtifact@1
