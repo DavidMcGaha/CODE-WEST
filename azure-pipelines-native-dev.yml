@@ -166,5 +166,5 @@ jobs:
         command: push
         feedsToUse: 'select'
         publishVstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
-        packagesToPush: '$(System.ArtifactsDirectory)/**/*.nupkg'
+        packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
         allowPackageConflicts: true
