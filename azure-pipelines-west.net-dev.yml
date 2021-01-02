@@ -38,7 +38,7 @@ jobs:
     - task: CmdLine@2
       displayName: 'Build WEST.NET'
       inputs:
-        script: 'dotnet build src/WebWindow/WebWindow.csproj -c $(buildConfiguration)''
+        script: 'dotnet build src/WebWindow/WebWindow.csproj -c $(buildConfiguration)'
 
     #Publish NuGet package to Artifacts
     - task: PublishPipelineArtifact@1
