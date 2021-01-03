@@ -44,7 +44,7 @@ jobs:
     - task: NuGetAuthenticate@0
       displayName: 'NuGet Authenticate'
       inputs:
-        nuGetServiceConnections: 'DevOpsArtifacts'
+        nuGetServiceConnections: 'WEST (Formerly WebWindow)/WESTPackages'
         #command: custom
         #arguments: sources update -Name "DevOpsArtifacts" -Username "this_value_could_anything" -Password "$(System.AccessToken)" -StorePasswordInClearText -ConfigFile "src/WebWindow/nuget.config"
       
