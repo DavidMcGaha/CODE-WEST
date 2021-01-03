@@ -69,7 +69,7 @@ jobs:
       inputs:
         nuGetServiceConnections: 'DevOpsArtifacts'
 
-        - task: NuGetCommand@2
+    - task: NuGetCommand@2
       displayName: 'NuGet push'
       inputs:
         command: push
