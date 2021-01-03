@@ -26,15 +26,20 @@ jobs:
         version: 5.0.100
         installationPath: $(Agent.ToolsDirectory)/dotnet
 
-    - task: NuGetCommand@2
-      displayName: 'NuGet package restore for WEST.NET packages'
+    #- task: NuGetCommand@2
+    #  displayName: 'NuGet package restore for WEST.NET packages'
+    #  inputs:
+    #    command: 'restore'
+    #    verbosityRestore: 'Detailed'
+    #    restoreSolution: '**/WebWindow.Dev.sln'
+    #    feedsToUse: 'select'
+    #    vstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
+    #    includeNuGetOrg: true
+
+    - task: CmdLine@2
+      displayName: 'Add NuGet source'
       inputs:
-        command: 'restore'
-        verbosityRestore: 'Detailed'
-        restoreSolution: '**/WebWindow.Dev.sln'
-        feedsToUse: 'select'
-        vstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
-        includeNuGetOrg: true
+        script: 'dotnet nuget add source https://pkgs.dev.azure.com/eps-software/25138a24-91f3-4071-b9bd-4d7763ecb75f/_packaging/WESTPackages/nuget/v3/index.json -u myeager-msid@outlook.com -p WillAndBethForever^'
 
     - task: CmdLine@2
       displayName: 'Build WEST.NET'
