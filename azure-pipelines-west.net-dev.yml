@@ -45,11 +45,6 @@ jobs:
     - task: CmdLine@2
       displayName: 'Rename package'
       inputs:
-        script: 'rename artifacts/WebWindow.0.1.2-dev.nupkg artifacts/WEST.NET.$(versionprefix)-$(Build.BuildNumber).nupkg'
-
-    - task: CmdLine@2
-      displayName: 'Rename package'
-      inputs:
         script: 'rename artifacts/WEST.NET.0.1.2-dev.nupkg artifacts/WEST.NET.$(versionprefix)-$(Build.BuildNumber).nupkg'
 
     #Publish NuGet package to Artifacts
