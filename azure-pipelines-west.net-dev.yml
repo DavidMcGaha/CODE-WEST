@@ -42,7 +42,7 @@ jobs:
       inputs:
         script: 'dotnet build src/WebWindow/WebWindow.csproj -c $(buildConfiguration)'
 
-   - task: CmdLine@2
+    - task: CmdLine@2
       displayName: 'Change directory to artifacts'
       inputs:
         script: 'cd artifacts'
