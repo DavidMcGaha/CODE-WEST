@@ -1,16 +1,14 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
+# Build WEST.NET project from dev branch in GitHub
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+- dev
 
 variables:
   versionprefix: 0.1.0
 
 jobs:
-  - job: 'BuildPackage'
+  - job: 'BuildPackageAndPublish'
 
     pool:
       vmImage: windows-latest
@@ -26,16 +24,6 @@ jobs:
         version: 5.0.100
         installationPath: $(Agent.ToolsDirectory)/dotnet
 
-    #- task: NuGetCommand@2
-    #  displayName: 'NuGet package restore for WEST.NET packages'
-    #  inputs:
-    #    command: 'restore'
-    #    verbosityRestore: 'Detailed'
-    #    restoreSolution: '**/WebWindow.Dev.sln'
-    #    feedsToUse: 'select'
-    #    vstsFeed: 'WEST (Formerly WebWindow)/WESTPackages'
-    #    includeNuGetOrg: true
-
     - task: CmdLine@2
       displayName: 'Add NuGet source'
       inputs:
@@ -44,25 +32,22 @@ jobs:
     - task: NuGetAuthenticate@0
       displayName: 'NuGet Authenticate'
       
-    - task: CmdLine@2
-      displayName: 'List NuGet sources'
-      inputs:
-        script: 'dotnet nuget list source'
+    #- task: CmdLine@2
+    #  displayName: 'List NuGet sources'
+    #  inputs:
+    #    script: 'dotnet nuget list source'
 
     - task: CmdLine@2
       displayName: 'Build WEST.NET'
       inputs:
         script: 'dotnet build src/WebWindow/WebWindow.csproj -c $(buildConfiguration)'
 
-    #Publish NuGet package to Artifacts
-    - task: PublishPipelineArtifact@1
+    - task: CmdLine@2
+      displayName: 'Rename package'
       inputs:
-        targetPath: 'artifacts/WEST.NET.$(versionprefix)-$(Build.BuildNumber).nupkg'
-        artifact: 'artifacts-combined'
-    
-    - task: NuGetAuthenticate@0
-      displayName: 'NuGet Authenticate'
+        script: 'rename artifacts/WebWindow.0.1.2-dev.nupkg artifacts/WEST.NET.$(versionprefix)-$(Build.BuildNumber).nupkg'
 
+    #Publish NuGet package to Artifacts
     - task: NuGetCommand@2
       displayName: 'NuGet push'
       inputs:

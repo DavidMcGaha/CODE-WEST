@@ -8,7 +8,7 @@ variables:
   versionprefix: 0.1.0
 
 jobs:
-  - job: 'BuildAndPublishNative'
+  - job: 'BuildNative'
     strategy:
       matrix:
         linux:
@@ -34,6 +34,7 @@ jobs:
       condition: eq(variables.rid, 'linux-x64')
       inputs:
         script: 'sudo apt-get update && sudo apt-get install libgtk-3-dev libwebkit2gtk-4.0-dev'
+
     - task: NuGetCommand@2
       displayName: 'NuGet package restore for Windows native packages'
       condition: eq(variables.rid, 'windows-x64')
@@ -50,30 +51,35 @@ jobs:
         solution: 'WebWindow.Native.sln'
         platform: 'x64'
         configuration: '$(buildConfiguration)'
+
     - task: CmdLine@2
       displayName: 'Rename windows native asset'
       condition: eq(variables.rid, 'windows-x64')
       inputs:
         workingDirectory: './src/WebWindow.Native/x64/$(buildConfiguration)'
         script: 'rename WebWindow.Native.dll WEST.Native.dll'
+
     - task: CmdLine@2
       displayName: 'Create output folder for Linux'
       condition: eq(variables.rid, 'linux-x64')
       inputs:
         workingDirectory: './src/WebWindow.Native'
         script: 'mkdir x64; cd x64; mkdir $(buildConfiguration)'
+
     - task: CmdLine@2
       displayName: 'Build Linux native assets'
       condition: eq(variables.rid, 'linux-x64')
       inputs:
         workingDirectory: './src/WebWindow.Native'
         script: 'gcc -std=c++11 -shared -DOS_LINUX Exports.cpp WebWindow.Linux.cpp -o x64/$(buildConfiguration)/WEST.Native.so `pkg-config --cflags --libs gtk+-3.0 webkit2gtk-4.0` -fPIC'
+
     - task: CmdLine@2
       displayName: 'Create output folder for MacOS'
       condition: eq(variables.rid, 'osx-x64')
       inputs:
         workingDirectory: './src/WebWindow.Native'
         script: 'mkdir x64; cd x64; mkdir $(buildConfiguration)'
+
     - task: CmdLine@2
       displayName: 'Build macOS native assets'
       condition: eq(variables.rid, 'osx-x64')
@@ -88,24 +94,28 @@ jobs:
       inputs:
         targetPath: './src/WebWindow.Native/x64/$(buildConfiguration)/WEST.Native.dll'
         artifactName: 'WEST.Native.dll'
+
     - task: PublishPipelineArtifact@1
       displayName: 'Publish WebView2Loader.dll (windows) to artifacts'
       condition: eq(variables.rid, 'windows-x64')
       inputs:
         targetPath: './src/WebWindow.Native/x64/$(buildConfiguration)/WebView2Loader.dll'
         artifactName: 'WebView2Loader.dll'
+
     - task: PublishPipelineArtifact@1
       displayName: 'Publish WEST.Native.nuspec (windows) to artifacts'
       condition: eq(variables.rid, 'windows-x64')
       inputs:
         targetPath: './src/WebWindow.Native/WEST.Native.nuspec'
         artifactName: 'WEST.Native.nuspec'
+
     - task: PublishPipelineArtifact@1
       displayName: 'Publish WEST.Native.so (linux) to artifacts'
       condition: eq(variables.rid, 'linux-x64')
       inputs:
         targetPath: './src/WebWindow.Native/x64/$(buildConfiguration)/WEST.Native.so'
         artifactName: 'WEST.Native.so'
+
     - task: PublishPipelineArtifact@1
       displayName: 'Publish WEST.Native.dylib (mac) to artifacts'
       condition: eq(variables.rid, 'osx-x64')
@@ -114,36 +124,43 @@ jobs:
         artifactName: 'WEST.Native.dylib'
 
 
-  #Only 1 instance - will download all native files, create NuGet package and publish to Artifacts
-  - job: 'BuildPackage'
-    dependsOn: 'BuildAndPublishNative'
+  #1 instance to download all native files, create NuGet package and publish to Artifacts
+  - job: 'PublishPackage'
+    dependsOn: 'BuildNative'
+    
     pool:
       vmImage: 'windows-latest'
+    
     variables:
       buildConfiguration: 'Release'
-    steps:
     
+    steps:
     #Download native files from Artifacts
     - task: DownloadPipelineArtifact@2
       inputs:
         artifact: 'WEST.Native.dll'
+
     - task: DownloadPipelineArtifact@2
       inputs:
         artifact: 'WebView2Loader.dll'
+
     - task: DownloadPipelineArtifact@2
       inputs:
         artifact: 'WEST.Native.nuspec'
+
     - task: DownloadPipelineArtifact@2
       inputs:
         artifact: 'WEST.Native.so'
+
     - task: DownloadPipelineArtifact@2
       inputs:
         artifact: 'WEST.Native.dylib'
-    - task: CmdLine@2
-      displayName: 'List downloaded files'
-      inputs:
-        workingDirectory: '$(Pipeline.Workspace)'
-        script: 'dir'
+
+    #- task: CmdLine@2
+    #  displayName: 'List downloaded files'
+    ##  inputs:
+    #    workingDirectory: '$(Pipeline.Workspace)'
+    #    script: 'dir'
 
     #Create NuGet package
     - task: CmdLine@2
@@ -153,13 +170,9 @@ jobs:
         script: 'nuget.exe pack WEST.Native.nuspec -Version $(versionprefix)-$(Build.BuildNumber) -NonInteractive -Properties version=$(versionprefix)-$(Build.BuildNumber)'
 
     #Publish NuGet package to Artifacts
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Pipeline.Workspace)/WEST.Native.$(versionprefix)-$(Build.BuildNumber).nupkg'
-        artifactName: 'NuGetPackage'
-    
     - task: NuGetAuthenticate@0
       displayName: 'NuGet Authenticate'
+
     - task: NuGetCommand@2
       displayName: 'NuGet push'
       inputs:
