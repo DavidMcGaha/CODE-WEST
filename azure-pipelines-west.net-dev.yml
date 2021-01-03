@@ -44,7 +44,7 @@ jobs:
     - task: NuGetAuthenticate@0
       displayName: 'NuGet Authenticate'
       inputs:
-        nuGetServiceConnections: 'DevOpsArtifacts'
+        nuGetServiceConnections: 'https://pkgs.dev.azure.com/eps-software/25138a24-91f3-4071-b9bd-4d7763ecb75f/_packaging/WESTPackages/nuget/v3/index.json'
         #command: custom
         #arguments: sources update -Name "DevOpsArtifacts" -Username "this_value_could_anything" -Password "$(System.AccessToken)" -StorePasswordInClearText -ConfigFile "src/WebWindow/nuget.config"
       
