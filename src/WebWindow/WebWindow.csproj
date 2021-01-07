@@ -13,7 +13,7 @@
     <Product>WEST.NET</Product>
     <PackageProjectUrl>https://github.com/ottodobretsberger/CODE-WEST</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ottodobretsberger/CODE-WEST</RepositoryUrl>
-    <Description>.NET 5 app that opens native OS windows hosting web UI on Windows, Mac, and Linux</Description>
+    <Description>.NET 5 app that opens native OS windows hosting web UI on Windows, Mac, and Linux (without Blazor support)</Description>
   </PropertyGroup>
 
   <ItemGroup>
