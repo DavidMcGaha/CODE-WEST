@@ -44,7 +44,9 @@ namespace WebWindows.Blazor
 
         protected override void BeginInvokeJS(long taskId, string identifier, string argsJson, JSCallResultType resultType, long targetInstanceId)
         {
-            throw new NotImplementedException();
+            //New (.NET 5)  version of Microsoft.JSInterop added this overload - we revert to the previous overload.
+            BeginInvokeJS(taskId, identifier, argsJson);
+            //throw new NotImplementedException();
         }
     }
 }
