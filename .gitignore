@@ -8,3 +8,5 @@ Debug/
 Release/
 packages/
 artifacts/
+/src/WebWindow/WebWindow - Backup.csproj
+/testassets/HelloWorldApp/HelloWorldApp - Backup.csproj
