@@ -84,6 +84,7 @@ namespace WebWindows.Blazor
 
         private static string GetContentType(string url)
         {
+            //TODO:MY Add all known MIME types?
             var ext = Path.GetExtension(url);
             switch (ext)
             {

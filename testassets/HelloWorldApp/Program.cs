@@ -10,6 +10,7 @@ namespace HelloWorldGRpc
         [STAThread]
         static void Main(string[] args)
         {
+            //Sending messages to the web UI
             var window = new WebWindow("My great app", options =>
             {
                 options.SchemeHandlers.Add("app", (string url, out string contentType) =>
@@ -19,6 +20,7 @@ namespace HelloWorldGRpc
                 });
             });
 
+            //receiving messages from web UI
             window.OnWebMessageReceived += (sender, message) =>
             {
                 window.SendMessage("Got message: " + message);
